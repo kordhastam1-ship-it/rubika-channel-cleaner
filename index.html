@@ -1,83 +1,79 @@
+
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>مدیریت کانال‌های روبیکا</title>
 
 <style>
-* {
-    box-sizing: border-box;
+*{box-sizing:border-box}
+body{
+margin:0;
+font-family:Tahoma,Arial,sans-serif;
+background:linear-gradient(135deg,#101827,#172d46);
+color:white;
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:20px
 }
-
-body {
-    margin: 0;
-    font-family: Tahoma, Arial, sans-serif;
-    background: linear-gradient(135deg, #101827, #172d46);
-    color: white;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+.container{
+width:100%;
+max-width:430px;
+background:#1d2b40;
+padding:25px;
+border-radius:20px;
+text-align:center;
+box-shadow:0 10px 35px #0005
 }
-
-.container {
-    width: 100%;
-    max-width: 430px;
-    background: #1d2b40;
-    padding: 28px;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0 10px 35px #0005;
+.icon{font-size:50px}
+h1{font-size:22px}
+p{color:#bdcbe0;line-height:2;font-size:14px}
+.card{
+background:#263b54;
+padding:15px;
+border-radius:12px;
+margin-top:15px
 }
-
-.icon {
-    font-size: 55px;
-    margin-bottom: 10px;
+.number{font-size:28px;font-weight:bold;margin:8px}
+.button{
+width:100%;
+padding:14px;
+border:0;
+border-radius:10px;
+margin-top:15px;
+background:#1689f8;
+color:white;
+font-size:16px;
+font-weight:bold
 }
-
-h1 {
-    font-size: 23px;
-    margin-bottom: 12px;
+.stop{background:#dc3545}
+.button:disabled{opacity:.5}
+.progress{
+height:12px;
+background:#101827;
+border-radius:10px;
+overflow:hidden;
+margin-top:12px
 }
-
-p {
-    color: #bdcbe0;
-    line-height: 2;
-    font-size: 14px;
+#bar{
+height:100%;
+width:0;
+background:#21c987;
+transition:width .3s
 }
-
-.button {
-    display: block;
-    width: 100%;
-    border: none;
-    border-radius: 12px;
-    padding: 15px;
-    margin-top: 22px;
-    background: #1689f8;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
+#status{
+margin-top:18px;
+color:#8fd9ff;
+font-size:14px;
+line-height:2
 }
-
-.button:disabled {
-    opacity: 0.6;
-}
-
-#status {
-    margin-top: 18px;
-    font-size: 13px;
-    color: #8fd9ff;
-    line-height: 2;
-    overflow-wrap: anywhere;
-}
-
-.note {
-    font-size: 12px;
-    color: #9aabc1;
-    margin-top: 22px;
+.note{
+font-size:12px;
+color:#9aabc1;
+margin-top:20px
 }
 </style>
 </head>
@@ -85,70 +81,87 @@ p {
 <body>
 <main class="container">
 
-    <div class="icon">🚀</div>
+<div class="icon">🚀</div>
+<h1>مدیریت کانال‌های روبیکا</h1>
+<p>نسخه آزمایشی مدیریت کانال‌ها</p>
 
-    <h1>مدیریت کانال‌های روبیکا</h1>
+<div class="card">
+تعداد کانال‌های آزمایشی
+<div class="number" id="total">50</div>
+</div>
 
-    <p>
-        برای بررسی اتصال سرویس، دکمه زیر را بزنید.
-    </p>
+<div class="card">
+درصد پیشرفت
+<div class="number" id="percent">0%</div>
+<div class="progress">
+<div id="bar"></div>
+</div>
+</div>
 
-    <button class="button" id="startButton" onclick="startProcess()">
-        بررسی اتصال سرویس
-    </button>
+<button class="button" id="start" onclick="startDemo()">
+شروع عملیات آزمایشی
+</button>
 
-    <div id="status">آماده شروع</div>
+<button class="button stop" id="stop" onclick="stopDemo()" disabled>
+توقف عملیات
+</button>
 
-    <div class="note">
-        این نسخه اتصال بک‌اند را آزمایش می‌کند.
-        عملیات واقعی ترک کانال‌ها هنوز فعال نیست.
-    </div>
+<div id="status">آماده شروع</div>
+
+<div class="note">
+این نسخه فقط شبیه‌سازی است و هیچ کانالی را ترک نمی‌کند.
+</div>
 
 </main>
 
 <script>
-async function startProcess() {
+let timer=null;
+let progress=0;
 
-    const status = document.getElementById("status");
-    const button = document.getElementById("startButton");
+function startDemo(){
+if(timer!==null)return;
 
-    button.disabled = true;
-    status.textContent = "در حال اتصال به سرویس...";
+progress=0;
 
-    try {
+document.getElementById("start").disabled=true;
+document.getElementById("stop").disabled=false;
+document.getElementById("status").textContent=
+"عملیات آزمایشی شروع شد...";
 
-        const response = await fetch(
-            "https://rubika-cleaner-backend.onrender.com/health"
-        );
+timer=setInterval(function(){
+progress++;
 
-        if (!response.ok) {
-            throw new Error("خطای سرور");
-        }
+document.getElementById("percent").textContent=
+progress*2+"%";
 
-        const data = await response.json();
+document.getElementById("bar").style.width=
+progress*2+"%";
 
-        if (data.status === "healthy") {
+document.getElementById("total").textContent=
+50-progress;
 
-            status.textContent =
-                "اتصال موفق است! بک‌اند فعال است.";
+if(progress>=50){
+clearInterval(timer);
+timer=null;
 
-        } else {
+document.getElementById("start").disabled=false;
+document.getElementById("stop").disabled=true;
+document.getElementById("status").textContent=
+"عملیات آزمایشی با موفقیت تمام شد!";
+}
+},200);
+}
 
-            status.textContent =
-                "وضعیت سرویس غیرمنتظره است.";
+function stopDemo(){
+if(timer!==null){
+clearInterval(timer);
+timer=null;
+}
 
-        }
-
-    } catch (error) {
-
-        status.textContent =
-            "اتصال برقرار نشد. اینترنت و فیلترشکن را بررسی کنید.";
-
-    } finally {
-
-        button.disabled = false;
-
-    }
+document.getElementById("start").disabled=false;
+document.getElementById("stop").disabled=true;
+document.getElementById("status").textContent=
+"عملیات آزمایشی متوقف شد.";
 }
 </script>
 
