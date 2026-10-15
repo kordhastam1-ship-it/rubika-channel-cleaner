@@ -2,171 +2,269 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>مدیریت کانال‌های روبیکا</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ترک کانال‌های روبیکا</title>
 
 <style>
-*{box-sizing:border-box}
-body{
-margin:0;
-font-family:Tahoma,Arial,sans-serif;
-background:linear-gradient(135deg,#101827,#172d46);
-color:white;
-min-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:20px
+* {
+    box-sizing: border-box;
 }
-.container{
-width:100%;
-max-width:430px;
-background:#1d2b40;
-padding:25px;
-border-radius:20px;
-text-align:center;
-box-shadow:0 10px 35px #0005
+
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: Tahoma, Arial, sans-serif;
+    background: #f1f4f9;
+    color: #222;
 }
-.icon{font-size:50px}
-h1{font-size:22px}
-p{color:#bdcbe0;line-height:2;font-size:14px}
-.card{
-background:#263b54;
-padding:15px;
-border-radius:12px;
-margin-top:15px
+
+.box {
+    max-width: 420px;
+    margin: 45px auto;
+    padding: 25px;
+    background: white;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 5px 20px #00000012;
 }
-.number{font-size:25px;font-weight:bold;margin:10px}
-.button{
-width:100%;
-padding:14px;
-border:0;
-border-radius:10px;
-margin-top:15px;
-background:#1689f8;
-color:white;
-font-size:16px;
-font-weight:bold;
-cursor:pointer
+
+h2 {
+    color: #2879e8;
+    font-size: 23px;
 }
-.button:disabled{opacity:.5;cursor:not-allowed}
-#status{
-margin-top:18px;
-color:#8fd9ff;
-font-size:14px;
-line-height:2;
-overflow-wrap:anywhere
+
+.total {
+    margin: 25px 0;
+    padding: 22px;
+    background: #edf5ff;
+    border-radius: 14px;
 }
-.note{
-font-size:12px;
-color:#9aabc1;
-margin-top:20px;
-line-height:2
+
+.number {
+    font-size: 38px;
+    font-weight: bold;
+    color: #2879e8;
+    margin-top: 10px;
+}
+
+button {
+    width: 100%;
+    border: none;
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 17px;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+#start {
+    background: #e53935;
+    color: white;
+}
+
+#stop {
+    background: #555;
+    color: white;
+    margin-top: 10px;
+    display: none;
+}
+
+#message {
+    margin: 22px 0;
+    line-height: 2;
+}
+
+.progress-bg {
+    height: 13px;
+    background: #e5e5e5;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 18px 0;
+}
+
+#progress {
+    width: 0%;
+    height: 100%;
+    background: #24b36b;
+    transition: width 0.3s;
+}
+
+.details {
+    font-size: 14px;
+    line-height: 2.2;
+    color: #555;
+}
+
+#notice {
+    margin-top: 15px;
+    font-size: 13px;
+    color: #777;
+    line-height: 1.8;
 }
 </style>
 </head>
 
 <body>
-<main class="container">
 
-<div class="icon">🚀</div>
-<h1>مدیریت کانال‌های روبیکا</h1>
-<p>سامانه مدیریت کانال‌ها</p>
+<div class="box">
 
-<div class="card">
-وضعیت سرور
-<div class="number" id="server">در حال بررسی...</div>
+    <h2>مدیریت کانال‌های روبیکا</h2>
+
+    <div class="total">
+        تعداد کل کانال‌ها
+        <div class="number" id="total">۰</div>
+    </div>
+
+    <button id="start" onclick="startLeaving()">
+        🚀 شروع ترک کانال‌ها
+    </button>
+
+    <div id="message">
+        برای شروع، دکمه بالا را بزنید.
+    </div>
+
+    <div class="progress-bg">
+        <div id="progress"></div>
+    </div>
+
+    <div class="details">
+        پیشرفت: <span id="done">۰</span>
+        از <span id="all">۰</span>
+        <br>
+        درصد پیشرفت: <span id="percent">۰</span>٪
+        <br>
+        کانال‌های باقی‌مانده: <span id="remaining">۰</span>
+    </div>
+
+    <button id="stop" onclick="stopLeaving()">
+        ⛔ توقف عملیات
+    </button>
+
+    <div id="notice">
+        برای انجام عملیات، اتصال حساب روبیکا لازم است.
+    </div>
+
 </div>
-
-<div class="card">
-وضعیت کتابخانه Rubpy
-<div class="number" id="rubpy">در حال بررسی...</div>
-</div>
-
-<div class="card">
-تعداد کانال‌های حساب
-<div class="number" id="total">هنوز دریافت نشده</div>
-</div>
-
-<button class="button" id="check" onclick="checkServer()">
-بررسی اتصال سرور
-</button>
-
-<div id="status">در حال بررسی وضعیت سرویس...</div>
-
-<div class="note">
-در این مرحله هنوز حساب روبیکا متصل نشده است.
-برای حفاظت از حساب، اطلاعات ورود خود را در این صفحه وارد نکنید.
-</div>
-
-</main>
 
 <script>
 const API = "https://rubika-cleaner-backend.onrender.com";
 
-async function checkServer(){
-const button = document.getElementById("check");
-const status = document.getElementById("status");
+let totalChannels = 0;
+let running = false;
+let timer = null;
 
-button.disabled = true;
-status.textContent = "در حال ارتباط با سرور...";
+async function loadStatus() {
+    try {
+        const response = await fetch(API + "/api/channels/status");
+        const data = await response.json();
 
-document.getElementById("server").textContent = "در حال بررسی...";
-document.getElementById("rubpy").textContent = "در حال بررسی...";
+        totalChannels = data.total_channels || 0;
 
-try {
-const healthResponse = await fetch(API + "/health");
-if (!healthResponse.ok) {
-throw new Error("سرور پاسخ موفق نداد");
+        document.getElementById("total").textContent = totalChannels;
+        document.getElementById("all").textContent = totalChannels;
+        document.getElementById("remaining").textContent = totalChannels;
+
+        document.getElementById("notice").textContent =
+            data.message || "وضعیت اتصال دریافت شد.";
+
+    } catch (error) {
+        document.getElementById("notice").textContent =
+            "اتصال به سرور برقرار نشد.";
+    }
 }
 
-const health = await healthResponse.json();
+async function startLeaving() {
+    if (running) return;
 
-if (health.status !== "healthy") {
-throw new Error("وضعیت سلامت سرور نامعتبر است");
+    if (totalChannels === 0) {
+        document.getElementById("message").textContent =
+            "هنوز فهرست کانال‌ها دریافت نشده است.";
+        await loadStatus();
+        return;
+    }
+
+    document.getElementById("message").textContent =
+        "در حال آماده‌سازی عملیات...";
+
+    try {
+        const response = await fetch(API + "/api/channels/leave/start", {
+            method: "POST"
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.detail || "عملیات شروع نشد.");
+        }
+
+        running = true;
+        document.getElementById("start").disabled = true;
+        document.getElementById("stop").style.display = "block";
+        document.getElementById("message").textContent =
+            "در حال ترک کانال‌ها، لطفاً تا انتها صبر کنید.";
+
+        timer = setInterval(checkProgress, 1500);
+
+    } catch (error) {
+        document.getElementById("message").textContent =
+            "عملیات هنوز در سرور فعال نشده است. ابتدا باید بخش ترک کانال به بک‌اند اضافه شود.";
+    }
 }
 
-document.getElementById("server").textContent = "فعال ✅";
+async function checkProgress() {
+    try {
+        const response = await fetch(API + "/api/channels/leave/status");
+        const data = await response.json();
 
-const systemResponse = await fetch(API + "/api/system/check");
-if (!systemResponse.ok) {
-throw new Error("بررسی کتابخانه ناموفق بود");
+        const done = data.done || 0;
+        const total = data.total || totalChannels;
+        const percent = total > 0
+            ? Math.min(100, Math.floor(done * 100 / total))
+            : 0;
+
+        document.getElementById("done").textContent = done;
+        document.getElementById("all").textContent = total;
+        document.getElementById("remaining").textContent =
+            Math.max(0, total - done);
+        document.getElementById("percent").textContent = percent;
+        document.getElementById("progress").style.width = percent + "%";
+
+        if (data.status === "completed") {
+            finish("✅ ترک کانال‌ها تمام شد.");
+        }
+    } catch (error) {
+        document.getElementById("message").textContent =
+            "دریافت وضعیت عملیات با مشکل روبه‌رو شد.";
+    }
 }
 
-const system = await systemResponse.json();
+async function stopLeaving() {
+    try {
+        await fetch(API + "/api/channels/leave/stop", {
+            method: "POST"
+        });
 
-document.getElementById("rubpy").textContent =
-system.rubpy_installed
-? "نصب است - نسخه " + system.rubpy_version
-: "نصب نیست";
-
-const channelResponse = await fetch(API + "/api/channels/status");
-if (!channelResponse.ok) {
-throw new Error("دریافت وضعیت کانال‌ها ناموفق بود");
+        finish("⛔ درخواست توقف ارسال شد.");
+    } catch (error) {
+        document.getElementById("message").textContent =
+            "ارسال درخواست توقف ناموفق بود.";
+    }
 }
 
-const channels = await channelResponse.json();
+function finish(message) {
+    running = false;
 
-document.getElementById("total").textContent =
-channels.channels_loaded
-? channels.total_channels
-: "هنوز دریافت نشده";
+    if (timer) {
+        clearInterval(timer);
+        timer = null;
+    }
 
-status.textContent = channels.message ||
-"ارتباط با سرور برقرار شد.";
-
-} catch (error) {
-document.getElementById("server").textContent = "خطا ❌";
-document.getElementById("rubpy").textContent = "بررسی نشد";
-document.getElementById("total").textContent = "دریافت نشده";
-status.textContent =
-"اتصال برقرار نشد. دوباره امتحان کن. اگر مشکل ادامه داشت، وضعیت سرور را بررسی می‌کنیم.";
-} finally {
-button.disabled = false;
-}
+    document.getElementById("message").textContent = message;
+    document.getElementById("start").disabled = false;
+    document.getElementById("stop").style.display = "none";
 }
 
-checkServer();
+loadStatus();
 </script>
 
 </body>
