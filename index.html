@@ -103,6 +103,7 @@ button {
     font-weight: bold;
     margin-top: 12px;
     cursor: pointer;
+    font-family: inherit;
 }
 
 button:disabled {
@@ -273,6 +274,98 @@ button.green {
     margin-bottom: 14px;
 }
 
+/* دکمه و پنجره مدیر سایت */
+.manager-button {
+    max-width: 250px;
+    display: block;
+    margin: 16px auto 0;
+    background: linear-gradient(135deg, #245db5, #192943);
+    border: 1px solid #5295ff;
+    box-shadow: 0 5px 18px #0003;
+}
+
+.manager-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.82);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 9999;
+    overflow-y: auto;
+}
+
+.manager-box {
+    width: 100%;
+    max-width: 400px;
+    padding: 25px 20px;
+    border-radius: 22px;
+    text-align: center;
+    background: linear-gradient(145deg, #192943, #0b1220);
+    border: 1px solid #5295ff;
+    box-shadow: 0 15px 45px #0008;
+    animation: managerShow .25s ease;
+}
+
+.manager-icon {
+    font-size: 48px;
+    margin-bottom: 5px;
+}
+
+.manager-box h2 {
+    color: #72b0ff;
+    font-size: 21px;
+    margin: 8px 0 18px;
+}
+
+.manager-name {
+    color: #2bd99a;
+    font-size: 17px;
+    font-weight: bold;
+    margin: 12px 0;
+}
+
+.manager-id {
+    display: inline-block;
+    direction: ltr;
+    color: #72b0ff;
+    font-size: 17px;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 8px 0 15px;
+    padding: 5px 12px;
+    border: 1px solid #283a55;
+    border-radius: 10px;
+    background: #0b1628;
+}
+
+.manager-id:hover {
+    background: #192943;
+}
+
+.manager-description {
+    color: #f1f5f9;
+    font-size: 14px;
+    line-height: 2.2;
+}
+
+.manager-close {
+    background: #245db5;
+    margin-top: 20px;
+}
+
+@keyframes managerShow {
+    from {
+        opacity: 0;
+        transform: scale(.85);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
 @media (max-width: 380px) {
     .card {
         padding: 14px;
@@ -300,7 +393,61 @@ button.green {
         <div class="subtitle">
             مدیریت کانال‌ها و گروه‌های حساب خودت
         </div>
+
+        <!-- دکمه مدیر سایت -->
+        <button
+            type="button"
+            class="manager-button"
+            onclick="openManager()">
+            👨‍💻 مدیر سایت
+        </button>
     </header>
+
+    <!-- پنجره معرفی مدیر سایت -->
+    <div
+        id="managerModal"
+        class="manager-overlay hidden"
+        onclick="closeManagerOutside(event)">
+
+        <div
+            class="manager-box"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="managerTitle">
+
+            <div class="manager-icon">👨‍💻</div>
+
+            <h2 id="managerTitle">مدیر سایت</h2>
+
+            <div class="manager-name">
+                برنامه‌نویس و طراح سایت
+                <br>
+                مسلم نوری
+            </div>
+
+            <a
+                class="manager-id"
+                href="https://rubika.ir/ISLAMIC_Al_KORDI"
+                target="_blank"
+                rel="noopener noreferrer">
+                @ISLAMIC_Al_KORDI
+            </a>
+
+            <div class="manager-description">
+                📩 جهت ارتباط با ما در روبیکا با آیدی بالا پیام بدین.
+                <br><br>
+                💚 هدف ما خدمات‌رسانی بهتر در روبیکا برای شماست.
+            </div>
+
+            <button
+                type="button"
+                class="manager-close"
+                onclick="closeManager()">
+                بستن پنجره
+            </button>
+
+        </div>
+    </div>
 
     <div class="notice">
         این ابزار برای مدیریت حساب خودت است. خروج از کانال یا گپ ممکن است
@@ -319,8 +466,8 @@ button.green {
                 type="tel"
                 inputmode="tel"
                 autocomplete="tel"
-                placeholder="مثلاً 09123456789"
-            >
+                placeholder="مثلاً 09123456789">
+
             <button id="sendCodeBtn" onclick="sendCode()">
                 ارسال کد ورود
             </button>
@@ -334,11 +481,12 @@ button.green {
                 inputmode="numeric"
                 autocomplete="one-time-code"
                 maxlength="8"
-                placeholder="کد دریافتی"
-            >
+                placeholder="کد دریافتی">
+
             <button id="verifyBtn" onclick="verifyCode()">
                 تأیید و ورود
             </button>
+
             <button class="secondary" onclick="resetLogin()">
                 بازگشت
             </button>
@@ -351,17 +499,22 @@ button.green {
 
     <!-- داشبورد -->
     <section id="dashboard" class="hidden">
+
         <div class="card">
             <h2>✅ حساب متصل شد</h2>
+
             <div class="account" id="accountStatus">
                 ورود موفق
             </div>
+
             <button class="secondary" onclick="refreshAll()">
                 🔄 به‌روزرسانی اطلاعات
             </button>
+
             <button class="danger" onclick="logoutLocal()">
                 خروج از سایت
             </button>
+
             <div class="small">
                 خروج از سایت نشست ذخیره‌شده در همین صفحه را پاک می‌کند.
                 برای خروج از حساب روبیکا، از تنظیمات رسمی روبیکا استفاده کن.
@@ -389,14 +542,17 @@ button.green {
                     <div class="stat-value" id="channelTotal">۰</div>
                     <div class="stat-label">کل کانال‌ها</div>
                 </div>
+
                 <div class="stat">
                     <div class="stat-value" id="channelCurrent">۰</div>
                     <div class="stat-label">بررسی‌شده</div>
                 </div>
+
                 <div class="stat ok">
                     <div class="stat-value" id="channelCompleted">۰</div>
                     <div class="stat-label">درخواست‌های موفق</div>
                 </div>
+
                 <div class="stat bad">
                     <div class="stat-value" id="channelFailed">۰</div>
                     <div class="stat-label">خطاها</div>
@@ -409,16 +565,14 @@ button.green {
 
             <button
                 id="channelStartBtn"
-                onclick="startOperation('channels')"
-            >
+                onclick="startOperation('channels')">
                 شروع ترک کانال‌ها
             </button>
 
             <button
                 id="channelStopBtn"
                 class="danger hidden"
-                onclick="stopOperation('channels')"
-            >
+                onclick="stopOperation('channels')">
                 توقف عملیات کانال‌ها
             </button>
         </section>
@@ -444,14 +598,17 @@ button.green {
                     <div class="stat-value" id="groupTotal">۰</div>
                     <div class="stat-label">کل گپ‌ها</div>
                 </div>
+
                 <div class="stat">
                     <div class="stat-value" id="groupCurrent">۰</div>
                     <div class="stat-label">بررسی‌شده</div>
                 </div>
+
                 <div class="stat ok">
                     <div class="stat-value" id="groupCompleted">۰</div>
                     <div class="stat-label">درخواست‌های موفق</div>
                 </div>
+
                 <div class="stat bad">
                     <div class="stat-value" id="groupFailed">۰</div>
                     <div class="stat-label">خطاها</div>
@@ -465,16 +622,14 @@ button.green {
             <button
                 id="groupStartBtn"
                 class="green"
-                onclick="startOperation('groups')"
-            >
+                onclick="startOperation('groups')">
                 شروع ترک گپ‌ها
             </button>
 
             <button
                 id="groupStopBtn"
                 class="danger hidden"
-                onclick="stopOperation('groups')"
-            >
+                onclick="stopOperation('groups')">
                 توقف عملیات گپ‌ها
             </button>
         </section>
@@ -498,6 +653,29 @@ let channelStatus = {};
 let groupStatus = {};
 
 const $ = id => document.getElementById(id);
+
+/* عملکرد پنجره مدیر سایت */
+function openManager() {
+    $("managerModal").classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+}
+
+function closeManager() {
+    $("managerModal").classList.add("hidden");
+    document.body.style.overflow = "";
+}
+
+function closeManagerOutside(event) {
+    if (event.target.id === "managerModal") {
+        closeManager();
+    }
+}
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+        closeManager();
+    }
+});
 
 function faNumber(value) {
     return Number(value || 0).toLocaleString("fa-IR");
@@ -616,6 +794,7 @@ async function verifyCode() {
 
         $("loginCard").classList.add("hidden");
         $("dashboard").classList.remove("hidden");
+
         $("accountStatus").textContent =
             data.message || "ورود موفق بود.";
 
@@ -683,7 +862,6 @@ function setRing(type, progress) {
 
 function updateOperationUI(type, data) {
     const isGroup = type === "groups";
-
     const prefix = isGroup ? "group" : "channel";
 
     $(prefix + "Total").textContent = faNumber(
@@ -692,17 +870,9 @@ function updateOperationUI(type, data) {
             : (data.total_channels ?? data.total ?? channelStatus.total_channels ?? 0)
     );
 
-    $(prefix + "Current").textContent = faNumber(
-        data.current || 0
-    );
-
-    $(prefix + "Completed").textContent = faNumber(
-        data.completed || 0
-    );
-
-    $(prefix + "Failed").textContent = faNumber(
-        data.failed || 0
-    );
+    $(prefix + "Current").textContent = faNumber(data.current || 0);
+    $(prefix + "Completed").textContent = faNumber(data.completed || 0);
+    $(prefix + "Failed").textContent = faNumber(data.failed || 0);
 
     setRing(prefix, data.progress || 0);
 
@@ -747,9 +917,13 @@ async function refreshAll() {
             total: groups.total_groups
         });
 
-        if (channels.running) activeOperation = "channels";
-        else if (groups.running) activeOperation = "groups";
-        else activeOperation = null;
+        if (channels.running) {
+            activeOperation = "channels";
+        } else if (groups.running) {
+            activeOperation = "groups";
+        } else {
+            activeOperation = null;
+        }
 
         if (activeOperation) {
             startPolling();
