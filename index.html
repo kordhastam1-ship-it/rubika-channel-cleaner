@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10172a">
 <title>مدیریت کانال‌های روبیکا</title>
 
 <style>
@@ -12,173 +13,313 @@
 
 body {
     margin: 0;
-    min-height: 100vh;
+    padding: 0;
     font-family: Tahoma, Arial, sans-serif;
-    background: linear-gradient(135deg, #10152f, #202d55, #10152f);
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+    background: linear-gradient(145deg, #10172a, #182848, #172554);
+    color: #ffffff;
+    min-height: 100vh;
 }
 
 .container {
     width: 100%;
-    max-width: 430px;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.13);
-    border-radius: 25px;
-    padding: 25px 20px;
+    max-width: 480px;
+    margin: auto;
+    padding: 22px 16px 35px;
+}
+
+.header {
     text-align: center;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    padding: 18px 10px 25px;
 }
 
 .logo {
     width: 75px;
     height: 75px;
-    margin: 0 auto 15px;
-    background: linear-gradient(135deg, #48d6ff, #5575ff);
-    border-radius: 22px;
+    margin: auto auto 14px;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #38bdf8, #6366f1);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 35px;
+    font-size: 36px;
+    box-shadow: 0 8px 30px #38bdf844;
 }
 
-h1 {
-    font-size: 22px;
+.header h1 {
+    font-size: 23px;
     margin: 10px 0;
 }
 
-.subtitle {
-    color: #c4cce5;
+.header p {
+    color: #b9c7e6;
     font-size: 13px;
     line-height: 2;
-    margin-bottom: 25px;
+    margin: 0;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 22px;
+    padding: 21px;
+    margin-bottom: 17px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 18px;
 }
 
 label {
     display: block;
-    text-align: right;
-    margin: 14px 0 8px;
     font-size: 13px;
-    color: #d9e2ff;
+    color: #dbeafe;
+    margin: 15px 0 9px;
 }
 
 input {
+    display: block;
     width: 100%;
-    padding: 14px;
-    border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.15);
-    background: rgba(0,0,0,0.2);
-    color: white;
-    font-size: 15px;
+    padding: 15px;
+    border: 1px solid #354767;
+    border-radius: 13px;
+    background: #101b32;
+    color: #ffffff;
+    font-family: Tahoma, Arial, sans-serif;
+    font-size: 16px;
     outline: none;
     direction: ltr;
-    text-align: left;
+    text-align: center;
+}
+
+input:focus {
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 3px #38bdf822;
 }
 
 button {
     width: 100%;
+    padding: 15px;
     border: none;
-    padding: 14px;
     border-radius: 13px;
-    margin-top: 14px;
+    font-family: Tahoma, Arial, sans-serif;
     font-size: 15px;
     font-weight: bold;
     cursor: pointer;
+    transition: 0.2s;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 .primary {
-    background: linear-gradient(135deg, #42d5ff, #5976ff);
-    color: #07132f;
+    background: linear-gradient(135deg, #38bdf8, #6366f1);
+    color: white;
+    margin-top: 18px;
+    box-shadow: 0 6px 18px #38bdf833;
 }
 
-.secondary {
-    background: rgba(255,255,255,0.1);
-    color: white;
-    border: 1px solid rgba(255,255,255,0.12);
+.primary:active {
+    transform: scale(0.98);
 }
 
 .danger {
-    background: #e83d58;
+    background: #ef4444;
     color: white;
+    margin-top: 12px;
+}
+
+.secondary {
+    background: #263754;
+    color: white;
+    margin-top: 12px;
+}
+
+.notice {
+    display: none;
+    padding: 13px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    font-size: 13px;
+    line-height: 2;
+    overflow-wrap: anywhere;
+}
+
+.notice.success {
+    display: block;
+    background: #064e3b;
+    color: #a7f3d0;
+}
+
+.notice.error {
+    display: block;
+    background: #7f1d1d;
+    color: #fecaca;
+}
+
+.notice.info {
+    display: block;
+    background: #172554;
+    color: #bfdbfe;
 }
 
 .hidden {
     display: none !important;
 }
 
-.status {
-    margin-top: 18px;
-    font-size: 13px;
-    color: #cbd6f5;
-    line-height: 2;
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 9px;
+    margin: 18px 0;
+}
+
+.stat {
+    background: #101b32;
+    border: 1px solid #263754;
+    border-radius: 14px;
+    padding: 14px 5px;
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 8px;
     overflow-wrap: anywhere;
 }
 
-.counter-area {
-    margin: 25px auto;
-    width: 210px;
-    height: 210px;
-    position: relative;
+.stat-label {
+    font-size: 11px;
+    color: #b9c7e6;
 }
 
-.counter-area svg {
-    width: 100%;
-    height: 100%;
-    transform: rotate(-90deg);
+.blue {
+    color: #38bdf8;
 }
 
-.track {
-    fill: none;
-    stroke: rgba(255,255,255,0.1);
-    stroke-width: 10;
+.green {
+    color: #34d399;
 }
 
-.progress {
-    fill: none;
-    stroke: #47d9ff;
-    stroke-width: 10;
-    stroke-linecap: round;
-    stroke-dasharray: 565.49;
-    stroke-dashoffset: 565.49;
-    transition: stroke-dashoffset 0.3s linear;
+.orange {
+    color: #fbbf24;
 }
 
-.counter-text {
-    position: absolute;
-    inset: 0;
+.ring-wrapper {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 0 20px;
+}
+
+.ring {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    background: conic-gradient(#38bdf8 0deg, #263754 0deg);
+    transition: background 0.3s linear;
+    box-shadow: 0 0 35px #38bdf81a;
 }
 
-.counter-number {
-    font-size: 38px;
+.ring::before {
+    content: "";
+    position: absolute;
+    inset: 12px;
+    background: #14213a;
+    border-radius: 50%;
+    border: 1px solid #334563;
+}
+
+.ring-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+.ring-count {
+    font-size: 39px;
     font-weight: bold;
+    color: #ffffff;
+    direction: ltr;
 }
 
-.counter-label {
-    color: #cbd6f5;
+.ring-total {
+    margin-top: 9px;
+    color: #b9c7e6;
     font-size: 13px;
-    margin-top: 8px;
 }
 
-.info {
-    background: rgba(0,0,0,0.15);
-    border-radius: 13px;
-    padding: 13px;
+.ring-caption {
     margin-top: 12px;
+    color: #38bdf8;
+    font-size: 12px;
+}
+
+.status-text {
+    text-align: center;
+    color: #cbd5e1;
     font-size: 13px;
     line-height: 2;
+    min-height: 26px;
+    overflow-wrap: anywhere;
+}
+
+.small-note {
+    color: #9fb1d1;
+    font-size: 11px;
+    text-align: center;
+    line-height: 2;
+    margin-top: 14px;
 }
 
 .footer {
-    margin-top: 20px;
-    color: #9caacd;
+    text-align: center;
+    color: #8194b7;
     font-size: 11px;
+    padding: 15px 0;
+    line-height: 2;
+}
+
+.loading {
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    border: 2px solid #ffffff55;
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-left: 6px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 360px) {
+    .ring {
+        width: 190px;
+        height: 190px;
+    }
+
+    .ring-count {
+        font-size: 33px;
+    }
+
+    .stat-number {
+        font-size: 18px;
+    }
 }
 </style>
 </head>
@@ -187,345 +328,584 @@ button {
 
 <div class="container">
 
-    <div class="logo">✈️</div>
-
-    <h1>مدیریت کانال‌های روبیکا</h1>
-
-    <div class="subtitle">
-        مدیریت کانال‌ها در محیطی ساده و زیبا
+    <div class="header">
+        <div class="logo">✦</div>
+        <h1>مدیریت کانال‌های روبیکا</h1>
+        <p>مدیریت ساده کانال‌ها با شمارنده زنده</p>
     </div>
 
-    <section id="loginSection">
+    <div id="notice" class="notice"></div>
 
-        <label for="phone">شماره تلفن</label>
-        <input id="phone" type="tel"
-               placeholder="شماره تلفن"
-               autocomplete="tel">
+    <section class="card" id="authCard">
+        <div class="card-title">🔐 ورود به حساب</div>
 
-        <button class="primary" id="sendCodeBtn" onclick="sendCode()">
-            دریافت کد ورود
-        </button>
+        <div id="phoneSection">
+            <label for="phone">شماره موبایل روبیکا</label>
+            <input
+                id="phone"
+                type="tel"
+                inputmode="tel"
+                autocomplete="tel"
+                placeholder="09123456789"
+                maxlength="15"
+            >
+
+            <button class="primary" id="sendCodeBtn" onclick="sendCode()">
+                دریافت کد تأیید
+            </button>
+        </div>
 
         <div id="codeSection" class="hidden">
-
             <label for="code">کد تأیید ارسال‌شده</label>
-            <input id="code" type="text"
-                   placeholder="کد تأیید"
-                   autocomplete="one-time-code">
+            <input
+                id="code"
+                type="text"
+                inputmode="numeric"
+                autocomplete="one-time-code"
+                placeholder="کد تأیید"
+                maxlength="12"
+            >
 
             <button class="primary" id="verifyBtn" onclick="verifyCode()">
                 تأیید و ورود
             </button>
 
+            <button class="secondary" onclick="changePhone()">
+                تغییر شماره موبایل
+            </button>
         </div>
 
-        <div id="loginStatus" class="status"></div>
-
+        <div class="small-note">
+            برای ادامه، باید کد تأیید حساب خودت را وارد کنی.
+        </div>
     </section>
 
-    <section id="mainSection" class="hidden">
+    <section class="card hidden" id="dashboard">
+        <div class="card-title">📊 وضعیت کانال‌ها</div>
 
-        <div class="info">
-            برای شروع، دکمه زیر را بزن.
-            عملیات فقط روی حسابی انجام می‌شود که وارد آن شده‌ای.
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number blue" id="totalChannels">۰</div>
+                <div class="stat-label">کل کانال‌ها</div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-number green" id="completedChannels">۰</div>
+                <div class="stat-label">ترک موفق</div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-number orange" id="failedChannels">۰</div>
+                <div class="stat-label">خطاها</div>
+            </div>
+        </div>
+
+        <button class="secondary" id="refreshBtn" onclick="refreshStatus()">
+            بررسی تعداد کانال‌ها
+        </button>
+    </section>
+
+    <section class="card hidden" id="progressCard">
+        <div class="card-title">🚀 پیشرفت ترک کانال‌ها</div>
+
+        <div class="ring-wrapper">
+            <div class="ring" id="progressRing">
+                <div class="ring-content">
+                    <div class="ring-count" id="ringCount">۰</div>
+                    <div class="ring-total">
+                        از <span id="ringTotal">۰</span> کانال
+                    </div>
+                    <div class="ring-caption" id="ringCaption">
+                        آماده شروع
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="status-text" id="statusText">
+            برای شروع، دکمه پایین را بزن.
         </div>
 
         <button class="primary" id="startBtn" onclick="startLeaving()">
-            🚀 شروع ترک کانال‌ها
+            شروع ترک کانال‌ها
         </button>
-
-        <div class="counter-area">
-
-            <svg viewBox="0 0 200 200">
-                <circle class="track"
-                        cx="100" cy="100" r="90"></circle>
-
-                <circle class="progress"
-                        id="progressCircle"
-                        cx="100" cy="100" r="90"></circle>
-            </svg>
-
-            <div class="counter-text">
-                <div class="counter-number" id="counter">0</div>
-                <div class="counter-label">از <span id="total">0</span> کانال</div>
-            </div>
-
-        </div>
-
-        <div class="info" id="operationStatus">
-            آماده شروع
-        </div>
 
         <button class="danger hidden" id="stopBtn" onclick="stopLeaving()">
-            ⛔ توقف عملیات
+            توقف عملیات
         </button>
 
-        <button class="secondary" onclick="logout()">
-            خروج از حساب
+        <button class="secondary" id="refreshProgressBtn" onclick="refreshProgress()">
+            به‌روزرسانی وضعیت
         </button>
 
+        <div class="small-note">
+            شمارنده با وضعیت گزارش‌شده از سرور هماهنگ می‌شود.
+        </div>
     </section>
 
     <div class="footer">
-        مدیریت کانال‌های روبیکا
+        ابزار مدیریت کانال‌های حساب شخصی روبیکا
     </div>
 
 </div>
 
 <script>
-const API = "https://rubika-cleaner.onrender.com";
+"use strict";
 
-let operationTimer = null;
-let operationRunning = false;
-let currentCount = 0;
-let totalCount = 0;
+/*
+آدرس بک‌اند قبلی پروژه حفظ شده است.
+اگر آدرس واقعی سرویس Render تو متفاوت است،
+باید همین خط را با آدرس درست جایگزین کنی.
+*/
+const API = "https://rubika-cleaner-backend.onrender.com";
+
+let sessionToken = "";
 let pollTimer = null;
+let isPolling = false;
+let jobStarted = false;
+let lastTotal = 0;
 
-async function apiRequest(path, data) {
-    const response = await fetch(API + path, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    });
+const $ = id => document.getElementById(id);
 
-    const result = await response.json();
+function showNotice(message, type = "info") {
+    const box = $("notice");
+    box.className = "notice " + type;
+    box.textContent = message;
+    box.style.display = "block";
+}
+
+function hideNotice() {
+    $("notice").style.display = "none";
+}
+
+function toFaNumber(value) {
+    return String(value ?? 0).replace(/\d/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]);
+}
+
+function setButtonLoading(buttonId, loading, text) {
+    const button = $(buttonId);
+    button.disabled = loading;
+
+    if (loading) {
+        button.dataset.oldText = button.textContent;
+        button.innerHTML = '<span class="loading"></span>' + text;
+    } else {
+        button.textContent = button.dataset.oldText || text;
+    }
+}
+
+async function request(path, method = "GET", body = null) {
+    const headers = {};
+
+    if (body !== null) {
+        headers["Content-Type"] = "application/json";
+    }
+
+    if (sessionToken) {
+        headers["X-Session-Token"] = sessionToken;
+    }
+
+    let response;
+
+    try {
+        response = await fetch(API + path, {
+            method,
+            headers,
+            body: body === null ? undefined : JSON.stringify(body)
+        });
+    } catch (error) {
+        throw new Error(
+            "ارتباط با سرور برقرار نشد. اتصال اینترنت و آدرس بک‌اند را بررسی کن."
+        );
+    }
+
+    const raw = await response.text();
+    let data = {};
+
+    try {
+        data = raw ? JSON.parse(raw) : {};
+    } catch (error) {
+        data = { detail: raw };
+    }
 
     if (!response.ok) {
         throw new Error(
-            result.detail || result.message || "خطا در ارتباط با سرور"
+            data.detail || data.message || ("خطای سرور: " + response.status)
         );
     }
 
-    return result;
-}
-
-function showStatus(elementId, message) {
-    document.getElementById(elementId).textContent = message;
+    return data;
 }
 
 async function sendCode() {
-    const phone = document.getElementById("phone").value.trim();
+    hideNotice();
+
+    const phone = $("phone").value.trim();
 
     if (!phone) {
-        showStatus("loginStatus", "لطفاً شماره تلفن را وارد کن.");
+        showNotice("لطفاً شماره موبایل را وارد کن.", "error");
         return;
     }
 
-    const btn = document.getElementById("sendCodeBtn");
-    btn.disabled = true;
+    if (!/^\+?[0-9۰-۹٠-٩]{10,15}$/.test(phone)) {
+        showNotice("شماره موبایل واردشده معتبر به نظر نمی‌رسد.", "error");
+        return;
+    }
 
-    showStatus("loginStatus", "در حال ارسال درخواست...");
+    setButtonLoading("sendCodeBtn", true, "در حال ارسال کد...");
 
     try {
-        const result = await apiRequest("/api/auth/send-code", {
-            phone: phone
-        });
+        const data = await request(
+            "/api/auth/send-code",
+            "POST",
+            { phone }
+        );
 
-        document.getElementById("codeSection").classList.remove("hidden");
+        if (!data.token) {
+            throw new Error(
+                data.detail || "سرور توکن ورود را برنگرداند."
+            );
+        }
 
-        showStatus(
-            "loginStatus",
-            result.message || "اگر درخواست موفق بوده، کد تأیید را وارد کن."
+        sessionToken = data.token;
+
+        $("phoneSection").classList.add("hidden");
+        $("codeSection").classList.remove("hidden");
+        $("code").focus();
+
+        showNotice(
+            data.message || "درخواست ارسال کد ثبت شد. کد تأیید را وارد کن.",
+            "success"
         );
 
     } catch (error) {
-        showStatus("loginStatus", "خطا: " + error.message);
+        showNotice(error.message, "error");
     } finally {
-        btn.disabled = false;
+        setButtonLoading("sendCodeBtn", false, "دریافت کد تأیید");
     }
+}
+
+function changePhone() {
+    $("codeSection").classList.add("hidden");
+    $("phoneSection").classList.remove("hidden");
+    $("code").value = "";
+    sessionToken = "";
+    hideNotice();
 }
 
 async function verifyCode() {
-    const phone = document.getElementById("phone").value.trim();
-    const code = document.getElementById("code").value.trim();
+    hideNotice();
 
-    if (!phone || !code) {
-        showStatus("loginStatus", "شماره تلفن و کد تأیید را وارد کن.");
+    const code = $("code").value.trim();
+
+    if (!code) {
+        showNotice("کد تأیید را وارد کن.", "error");
         return;
     }
 
-    /*
-      این مسیر باید با مسیر واقعی تأیید کد در بک‌اند هماهنگ باشد.
-      اگر بک‌اند تو مسیر دیگری دارد، باید همین قسمت اصلاح شود.
-    */
+    if (!sessionToken) {
+        showNotice("نشست ورود پیدا نشد. دوباره کد بگیر.", "error");
+        changePhone();
+        return;
+    }
 
-    const btn = document.getElementById("verifyBtn");
-    btn.disabled = true;
-
-    showStatus("loginStatus", "در حال بررسی کد...");
+    setButtonLoading("verifyBtn", true, "در حال بررسی کد...");
 
     try {
-        const result = await apiRequest("/api/auth/verify-code", {
-            phone: phone,
-            code: code
-        });
+        const data = await request(
+            "/api/auth/verify-code",
+            "POST",
+            {
+                token: sessionToken,
+                code: code
+            }
+        );
 
-        if (result.success === false) {
-            throw new Error(result.message || "تأیید کد ناموفق بود.");
+        if (data.success === false) {
+            throw new Error(data.message || "کد تأیید پذیرفته نشد.");
         }
 
-        document.getElementById("loginSection").classList.add("hidden");
-        document.getElementById("mainSection").classList.remove("hidden");
+        $("authCard").classList.add("hidden");
+        $("dashboard").classList.remove("hidden");
+        $("progressCard").classList.remove("hidden");
 
-        showStatus("operationStatus", "ورود انجام شد. آماده شروع هستی.");
+        showNotice("ورود موفق بود. در حال بررسی کانال‌ها...", "success");
+
+        await refreshStatus();
 
     } catch (error) {
-        showStatus("loginStatus", "خطا: " + error.message);
+        showNotice(error.message, "error");
     } finally {
-        btn.disabled = false;
+        setButtonLoading("verifyBtn", false, "تأیید و ورود");
     }
 }
 
-function updateCounter(count, total) {
-    currentCount = Math.max(0, Number(count) || 0);
-    totalCount = Math.max(0, Number(total) || 0);
-
-    document.getElementById("counter").textContent = currentCount;
-    document.getElementById("total").textContent = totalCount;
-
-    const circumference = 565.49;
-    let ratio = totalCount > 0 ? currentCount / totalCount : 0;
-
-    ratio = Math.max(0, Math.min(1, ratio));
-
-    document.getElementById("progressCircle").style.strokeDashoffset =
-        circumference * (1 - ratio);
-}
-
-async function startLeaving() {
-    if (operationRunning) return;
-
-    operationRunning = true;
-
-    document.getElementById("startBtn").disabled = true;
-    document.getElementById("stopBtn").classList.remove("hidden");
-
-    updateCounter(0, 0);
-
-    showStatus("operationStatus", "در حال شروع عملیات...");
+async function refreshStatus() {
+    hideNotice();
+    setButtonLoading("refreshBtn", true, "در حال بررسی...");
 
     try {
-        /*
-          این مسیر باید در بک‌اند پیاده‌سازی شده باشد.
-          فرانت‌اند به‌تنهایی نمی‌تواند کانال‌های روبیکا را ترک کند.
-        */
+        const data = await request("/api/channels/status");
 
-        const result = await apiRequest("/api/channels/leave", {
-            action: "start"
-        });
-
-        if (result.total !== undefined) {
-            updateCounter(0, result.total);
-        }
-
-        showStatus(
-            "operationStatus",
-            result.message || "عملیات شروع شد."
-        );
-
-        pollProgress();
-
-    } catch (error) {
-        operationRunning = false;
-        document.getElementById("startBtn").disabled = false;
-        document.getElementById("stopBtn").classList.add("hidden");
-
-        showStatus("operationStatus", "خطا: " + error.message);
-    }
-}
-
-async function pollProgress() {
-    if (!operationRunning) return;
-
-    try {
-        /*
-          این مسیر باید وضعیت واقعی عملیات را از بک‌اند برگرداند.
-        */
-
-        const response = await fetch(API + "/api/channels/progress");
-
-        if (!response.ok) {
-            throw new Error("دریافت وضعیت ناموفق بود.");
-        }
-
-        const result = await response.json();
-
-        updateCounter(
-            result.completed ?? result.count ?? 0,
-            result.total ?? 0
-        );
-
-        if (result.message) {
-            showStatus("operationStatus", result.message);
-        }
-
-        if (
-            result.done === true ||
-            (totalCount > 0 && currentCount >= totalCount)
-        ) {
-            operationRunning = false;
-
-            document.getElementById("startBtn").disabled = false;
-            document.getElementById("stopBtn").classList.add("hidden");
-
-            showStatus("operationStatus", "عملیات به پایان رسید.");
+        if (data.connected === false) {
+            showNotice(
+                "اتصال حساب تأیید نشده است. لطفاً دوباره وارد شو.",
+                "error"
+            );
             return;
         }
 
+        const total = Number(
+            data.total_channels ?? data.channels_loaded ?? 0
+        );
+
+        lastTotal = total;
+
+        $("totalChannels").textContent = toFaNumber(total);
+        $("ringTotal").textContent = toFaNumber(total);
+
+        showNotice(
+            data.message || "وضعیت کانال‌ها به‌روزرسانی شد.",
+            "success"
+        );
+
+        if (!jobStarted) {
+            updateRing(0, total);
+            $("statusText").textContent =
+                total > 0
+                    ? "تعداد کانال‌های شناسایی‌شده: " + toFaNumber(total)
+                    : "کانالی برای نمایش پیدا نشد یا هنوز بارگذاری نشده است.";
+        }
+
     } catch (error) {
-        showStatus("operationStatus", "در انتظار دریافت وضعیت از سرور...");
+        showNotice(error.message, "error");
+    } finally {
+        setButtonLoading("refreshBtn", false, "بررسی تعداد کانال‌ها");
+    }
+}
+
+function updateRing(current, total) {
+    current = Math.max(0, Number(current) || 0);
+    total = Math.max(0, Number(total) || 0);
+
+    if (total > 0) {
+        current = Math.min(current, total);
+    } else {
+        current = 0;
     }
 
-    if (operationRunning) {
-        pollTimer = setTimeout(pollProgress, 1000);
+    const angle = total > 0 ? (current / total) * 360 : 0;
+
+    $("progressRing").style.background =
+        "conic-gradient(#38bdf8 " +
+        angle +
+        "deg, #263754 " +
+        angle +
+        "deg)";
+
+    $("ringCount").textContent = toFaNumber(current);
+    $("ringTotal").textContent = toFaNumber(total);
+
+    if (total > 0 && current >= total) {
+        $("ringCaption").textContent = "پایان شمارش";
+    } else if (current > 0) {
+        $("ringCaption").textContent = "در حال پیشرفت";
+    } else {
+        $("ringCaption").textContent = "آماده شروع";
+    }
+}
+
+async function startLeaving() {
+    hideNotice();
+
+    if (jobStarted) {
+        showNotice("عملیات در حال اجراست.", "info");
+        return;
+    }
+
+    $("startBtn").disabled = true;
+    $("startBtn").textContent = "در حال شروع...";
+
+    try {
+        const data = await request(
+            "/api/channels/leave/start",
+            "POST",
+            {}
+        );
+
+        jobStarted = true;
+
+        const total = Number(
+            data.total_channels ?? data.total ?? lastTotal
+        );
+
+        lastTotal = total;
+
+        updateRing(0, total);
+
+        $("completedChannels").textContent = "۰";
+        $("failedChannels").textContent = "۰";
+
+        $("startBtn").classList.add("hidden");
+        $("stopBtn").classList.remove("hidden");
+
+        $("statusText").textContent =
+            data.message || "عملیات ترک کانال‌ها شروع شد.";
+
+        $("ringCaption").textContent = "در حال شروع";
+
+        showNotice(
+            data.message || "عملیات شروع شد.",
+            "success"
+        );
+
+        startPolling();
+
+    } catch (error) {
+        showNotice(error.message, "error");
+        $("startBtn").disabled = false;
+        $("startBtn").textContent = "شروع ترک کانال‌ها";
+    }
+}
+
+function startPolling() {
+    stopPolling();
+    isPolling = true;
+
+    refreshProgress();
+
+    pollTimer = setInterval(() => {
+        refreshProgress();
+    }, 1000);
+}
+
+function stopPolling() {
+    isPolling = false;
+
+    if (pollTimer !== null) {
+        clearInterval(pollTimer);
+        pollTimer = null;
+    }
+}
+
+async function refreshProgress() {
+    if (!sessionToken) {
+        return;
+    }
+
+    try {
+        const data = await request("/api/channels/leave/status");
+
+        const total = Number(data.total ?? lastTotal ?? 0);
+
+        /*
+        current تعداد موارد بررسی‌شده تا این لحظه است.
+        completed تعداد ترک‌های موفق است.
+        این دو عدد لزوماً برابر نیستند.
+        */
+        const current = Number(
+            data.current ?? data.completed ?? 0
+        );
+
+        const completed = Number(data.completed ?? 0);
+        const failed = Number(data.failed ?? 0);
+
+        lastTotal = total;
+
+        $("totalChannels").textContent = toFaNumber(total);
+        $("completedChannels").textContent = toFaNumber(completed);
+        $("failedChannels").textContent = toFaNumber(failed);
+
+        updateRing(current, total);
+
+        if (data.message) {
+            $("statusText").textContent = data.message;
+        } else if (total > 0) {
+            $("statusText").textContent =
+                "بررسی " + toFaNumber(current) +
+                " از " + toFaNumber(total) + " کانال";
+        }
+
+        const running = data.running === true;
+        const stopped = data.stopped === true;
+
+        if (running) {
+            $("ringCaption").textContent = "در حال انجام";
+            $("stopBtn").classList.remove("hidden");
+            $("startBtn").classList.add("hidden");
+        } else if (jobStarted && total > 0) {
+            stopPolling();
+            jobStarted = false;
+
+            $("stopBtn").classList.add("hidden");
+            $("startBtn").classList.remove("hidden");
+            $("startBtn").disabled = false;
+            $("startBtn").textContent = "شروع دوباره";
+
+            if (stopped) {
+                $("ringCaption").textContent = "متوقف شد";
+                showNotice(
+                    "عملیات متوقف شد. تعداد موفق: " +
+                    toFaNumber(completed) +
+                    "، خطا: " + toFaNumber(failed),
+                    "info"
+                );
+            } else {
+                updateRing(total, total);
+                $("ringCaption").textContent = "پایان عملیات";
+
+                showNotice(
+                    "عملیات تمام شد. تعداد موفق: " +
+                    toFaNumber(completed) +
+                    "، خطا: " + toFaNumber(failed),
+                    failed > 0 ? "info" : "success"
+                );
+            }
+        }
+
+    } catch (error) {
+        /*
+        خطای موقت دریافت وضعیت باعث قطع فوری شمارنده نمی‌شود.
+        */
+        $("statusText").textContent =
+            "دریافت وضعیت با مشکل روبه‌رو شد؛ دوباره تلاش می‌کنیم.";
     }
 }
 
 async function stopLeaving() {
-    if (!operationRunning) return;
+    if (!jobStarted) {
+        return;
+    }
+
+    $("stopBtn").disabled = true;
+    $("stopBtn").textContent = "در حال توقف...";
 
     try {
-        await apiRequest("/api/channels/stop", {
-            action: "stop"
-        });
+        const data = await request(
+            "/api/channels/leave/stop",
+            "POST",
+            {}
+        );
+
+        showNotice(
+            data.message || "درخواست توقف ارسال شد.",
+            "info"
+        );
+
+        await refreshProgress();
+
     } catch (error) {
-        showStatus(
-            "operationStatus",
-            "درخواست توقف ارسال نشد: " + error.message
-        );
-        return;
+        showNotice(error.message, "error");
+    } finally {
+        $("stopBtn").disabled = false;
+        $("stopBtn").textContent = "توقف عملیات";
     }
-
-    operationRunning = false;
-
-    clearTimeout(pollTimer);
-
-    document.getElementById("startBtn").disabled = false;
-    document.getElementById("stopBtn").classList.add("hidden");
-
-    showStatus("operationStatus", "درخواست توقف ارسال شد.");
 }
 
-function logout() {
-    if (operationRunning) {
-        showStatus(
-            "operationStatus",
-            "ابتدا عملیات را متوقف کن."
-        );
-        return;
-    }
-
-    document.getElementById("mainSection").classList.add("hidden");
-    document.getElementById("loginSection").classList.remove("hidden");
-
-    document.getElementById("code").value = "";
-    document.getElementById("codeSection").classList.add("hidden");
-
-    showStatus("loginStatus", "");
-}
+window.addEventListener("beforeunload", () => {
+    stopPolling();
+});
 </script>
 
 </body>
-    </html>
+                </html>
