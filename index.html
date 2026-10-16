@@ -34,7 +34,7 @@ body {
 .container {
     width: min(100% - 24px, 680px);
     margin: 0 auto;
-    padding: 20px 0 40px;
+    padding: 20px 0 20px;
 }
 
 .header {
@@ -257,13 +257,6 @@ button.green {
     font-size: 12px;
 }
 
-.footer {
-    text-align: center;
-    color: var(--muted);
-    font-size: 12px;
-    padding: 15px 5px;
-}
-
 .notice {
     background: #302717;
     color: #f7d68b;
@@ -275,12 +268,20 @@ button.green {
 }
 
 .manager-button {
+    width: 100%;
     max-width: 250px;
     display: block;
-    margin: 16px auto 0;
+    margin: 0 auto;
+    padding: 16px;
     background: linear-gradient(135deg, #245db5, #192943);
     border: 1px solid #5295ff;
+    border-radius: 18px;
     box-shadow: 0 5px 18px #0003;
+}
+
+.manager-bottom {
+    text-align: center;
+    padding: 28px 0 10px;
 }
 
 .manager-overlay {
@@ -384,6 +385,7 @@ button.green {
 </head>
 
 <body>
+
 <div class="container">
 
     <header class="header">
@@ -394,13 +396,6 @@ button.green {
         <div class="subtitle">
             مدیریت کانال‌ها و گروه‌های حساب خودت
         </div>
-
-        <button
-            type="button"
-            class="manager-button"
-            onclick="openManager()">
-            👨‍💻 مدیر سایت
-        </button>
     </header>
 
     <div
@@ -448,12 +443,10 @@ button.green {
         </div>
     </div>
 
-    <!-- متن جدید کادر زرد -->
     <div class="notice">
         🤖 با این سایت می‌تونی تمام کانال‌ها یا تمام گروه‌های روبیکای خودت رو به‌صورت خودکار و رباتیک ترک کنی! 🚀
     </div>
 
-    <!-- ورود -->
     <section class="card" id="loginCard">
 
         <h2>🔐 ورود به حساب روبیکا</h2>
@@ -503,7 +496,6 @@ button.green {
 
     </section>
 
-    <!-- داشبورد -->
     <section id="dashboard" class="hidden">
 
         <div class="card">
@@ -529,7 +521,6 @@ button.green {
 
         </div>
 
-        <!-- ترک کانال‌ها -->
         <section class="card">
 
             <div class="operation-title">
@@ -538,19 +529,12 @@ button.green {
             </div>
 
             <div class="progress-area">
-
                 <div class="ring" id="channelRing">
-
                     <div class="ring-content">
-
                         <div class="percent" id="channelPercent">۰٪</div>
-
                         <div class="percent-label">پیشرفت</div>
-
                     </div>
-
                 </div>
-
             </div>
 
             <div class="stats">
@@ -596,7 +580,6 @@ button.green {
 
         </section>
 
-        <!-- ترک گپ‌ها -->
         <section class="card">
 
             <div class="operation-title">
@@ -605,19 +588,12 @@ button.green {
             </div>
 
             <div class="progress-area">
-
                 <div class="ring" id="groupRing">
-
                     <div class="ring-content">
-
                         <div class="percent" id="groupPercent">۰٪</div>
-
                         <div class="percent-label">پیشرفت</div>
-
                     </div>
-
                 </div>
-
             </div>
 
             <div class="stats">
@@ -666,9 +642,15 @@ button.green {
 
     </section>
 
-    <footer class="footer">
-        ابزار مدیریت کانال و گپ روبیکا
-    </footer>
+    <!-- دکمه مدیر سایت در پایین‌ترین قسمت سایت -->
+    <div class="manager-bottom">
+        <button
+            type="button"
+            class="manager-button"
+            onclick="openManager()">
+            👨‍💻 مدیر سایت
+        </button>
+    </div>
 
 </div>
 
@@ -1257,4 +1239,4 @@ async function pollStatus() {
 </script>
 
 </body>
-        </html>
+                </html>
