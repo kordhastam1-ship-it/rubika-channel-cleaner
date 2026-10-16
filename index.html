@@ -274,7 +274,6 @@ button.green {
     margin-bottom: 14px;
 }
 
-/* دکمه و پنجره مدیر سایت */
 .manager-button {
     max-width: 250px;
     display: block;
@@ -389,12 +388,13 @@ button.green {
 
     <header class="header">
         <div class="logo">🧹</div>
+
         <h1>مدیریت کانال و گپ روبیکا</h1>
+
         <div class="subtitle">
             مدیریت کانال‌ها و گروه‌های حساب خودت
         </div>
 
-        <!-- دکمه مدیر سایت -->
         <button
             type="button"
             class="manager-button"
@@ -403,7 +403,6 @@ button.green {
         </button>
     </header>
 
-    <!-- پنجره معرفی مدیر سایت -->
     <div
         id="managerModal"
         class="manager-overlay hidden"
@@ -449,18 +448,20 @@ button.green {
         </div>
     </div>
 
+    <!-- متن جدید کادر زرد -->
     <div class="notice">
-        این ابزار برای مدیریت حساب خودت است. خروج از کانال یا گپ ممکن است
-        برگشت‌ناپذیر باشد؛ قبل از شروع، مطمئن شو که قصد ترک همه موارد
-        شناسایی‌شده را داری.
+        🤖 با این سایت می‌تونی تمام کانال‌ها یا تمام گروه‌های روبیکای خودت رو به‌صورت خودکار و رباتیک ترک کنی! 🚀
     </div>
 
     <!-- ورود -->
     <section class="card" id="loginCard">
+
         <h2>🔐 ورود به حساب روبیکا</h2>
 
         <div id="phoneStep">
+
             <label for="phone">شماره تلفن</label>
+
             <input
                 id="phone"
                 type="tel"
@@ -471,10 +472,13 @@ button.green {
             <button id="sendCodeBtn" onclick="sendCode()">
                 ارسال کد ورود
             </button>
+
         </div>
 
         <div id="codeStep" class="hidden">
+
             <label for="code">کد تأیید پیامکی</label>
+
             <input
                 id="code"
                 type="text"
@@ -490,17 +494,20 @@ button.green {
             <button class="secondary" onclick="resetLogin()">
                 بازگشت
             </button>
+
         </div>
 
         <div id="loginMessage" class="message">
             شماره خودت را وارد کن تا کد ورود درخواست شود.
         </div>
+
     </section>
 
     <!-- داشبورد -->
     <section id="dashboard" class="hidden">
 
         <div class="card">
+
             <h2>✅ حساب متصل شد</h2>
 
             <div class="account" id="accountStatus">
@@ -519,25 +526,35 @@ button.green {
                 خروج از سایت نشست ذخیره‌شده در همین صفحه را پاک می‌کند.
                 برای خروج از حساب روبیکا، از تنظیمات رسمی روبیکا استفاده کن.
             </div>
+
         </div>
 
         <!-- ترک کانال‌ها -->
         <section class="card">
+
             <div class="operation-title">
                 <span>📢</span>
                 <h2>ترک کانال‌ها</h2>
             </div>
 
             <div class="progress-area">
+
                 <div class="ring" id="channelRing">
+
                     <div class="ring-content">
+
                         <div class="percent" id="channelPercent">۰٪</div>
+
                         <div class="percent-label">پیشرفت</div>
+
                     </div>
+
                 </div>
+
             </div>
 
             <div class="stats">
+
                 <div class="stat total">
                     <div class="stat-value" id="channelTotal">۰</div>
                     <div class="stat-label">کل کانال‌ها</div>
@@ -557,6 +574,7 @@ button.green {
                     <div class="stat-value" id="channelFailed">۰</div>
                     <div class="stat-label">خطاها</div>
                 </div>
+
             </div>
 
             <div class="message" id="channelMessage">
@@ -575,25 +593,35 @@ button.green {
                 onclick="stopOperation('channels')">
                 توقف عملیات کانال‌ها
             </button>
+
         </section>
 
         <!-- ترک گپ‌ها -->
         <section class="card">
+
             <div class="operation-title">
                 <span>👥</span>
                 <h2>ترک گپ‌ها</h2>
             </div>
 
             <div class="progress-area">
+
                 <div class="ring" id="groupRing">
+
                     <div class="ring-content">
+
                         <div class="percent" id="groupPercent">۰٪</div>
+
                         <div class="percent-label">پیشرفت</div>
+
                     </div>
+
                 </div>
+
             </div>
 
             <div class="stats">
+
                 <div class="stat total">
                     <div class="stat-value" id="groupTotal">۰</div>
                     <div class="stat-label">کل گپ‌ها</div>
@@ -613,6 +641,7 @@ button.green {
                     <div class="stat-value" id="groupFailed">۰</div>
                     <div class="stat-label">خطاها</div>
                 </div>
+
             </div>
 
             <div class="message" id="groupMessage">
@@ -632,12 +661,15 @@ button.green {
                 onclick="stopOperation('groups')">
                 توقف عملیات گپ‌ها
             </button>
+
         </section>
+
     </section>
 
     <footer class="footer">
         ابزار مدیریت کانال و گپ روبیکا
     </footer>
+
 </div>
 
 <script>
@@ -654,7 +686,7 @@ let groupStatus = {};
 
 const $ = id => document.getElementById(id);
 
-/* عملکرد پنجره مدیر سایت */
+/* پنجره مدیر سایت */
 function openManager() {
     $("managerModal").classList.remove("hidden");
     document.body.style.overflow = "hidden";
@@ -688,6 +720,7 @@ function setMessage(id, text, type = "") {
 }
 
 async function apiRequest(path, options = {}) {
+
     const headers = {
         "Content-Type": "application/json",
         ...(options.headers || {})
@@ -728,23 +761,34 @@ async function apiRequest(path, options = {}) {
 }
 
 async function sendCode() {
+
     const phone = $("phone").value.trim();
 
     if (!phone) {
-        setMessage("loginMessage", "شماره تلفن را وارد کن.", "error");
+        setMessage(
+            "loginMessage",
+            "شماره تلفن را وارد کن.",
+            "error"
+        );
         return;
     }
 
     $("sendCodeBtn").disabled = true;
-    setMessage("loginMessage", "در حال درخواست کد ورود...");
+
+    setMessage(
+        "loginMessage",
+        "در حال درخواست کد ورود..."
+    );
 
     try {
+
         const data = await apiRequest("/api/auth/send-code", {
             method: "POST",
             body: JSON.stringify({ phone })
         });
 
         sessionToken = data.token;
+
         $("phoneStep").classList.add("hidden");
         $("codeStep").classList.remove("hidden");
 
@@ -757,13 +801,22 @@ async function sendCode() {
         $("code").focus();
 
     } catch (error) {
-        setMessage("loginMessage", error.message, "error");
+
+        setMessage(
+            "loginMessage",
+            error.message,
+            "error"
+        );
+
     } finally {
+
         $("sendCodeBtn").disabled = false;
+
     }
 }
 
 async function verifyCode() {
+
     const code = $("code").value.trim();
 
     if (!sessionToken) {
@@ -776,14 +829,23 @@ async function verifyCode() {
     }
 
     if (!code) {
-        setMessage("loginMessage", "کد تأیید را وارد کن.", "error");
+        setMessage(
+            "loginMessage",
+            "کد تأیید را وارد کن.",
+            "error"
+        );
         return;
     }
 
     $("verifyBtn").disabled = true;
-    setMessage("loginMessage", "در حال تأیید کد...");
+
+    setMessage(
+        "loginMessage",
+        "در حال تأیید کد..."
+    );
 
     try {
+
         const data = await apiRequest("/api/auth/verify-code", {
             method: "POST",
             body: JSON.stringify({
@@ -801,27 +863,44 @@ async function verifyCode() {
         await refreshAll();
 
     } catch (error) {
-        setMessage("loginMessage", error.message, "error");
+
+        setMessage(
+            "loginMessage",
+            error.message,
+            "error"
+        );
+
     } finally {
+
         $("verifyBtn").disabled = false;
+
     }
 }
 
 function resetLogin() {
+
     sessionToken = null;
+
     $("code").value = "";
+
     $("phoneStep").classList.remove("hidden");
     $("codeStep").classList.add("hidden");
-    setMessage("loginMessage", "شماره خودت را وارد کن.");
+
+    setMessage(
+        "loginMessage",
+        "شماره خودت را وارد کن."
+    );
 }
 
 function logoutLocal() {
+
     if (activeOperation) {
         alert("ابتدا عملیات در حال اجرا را متوقف کن.");
         return;
     }
 
     stopPolling();
+
     sessionToken = null;
     channelStatus = {};
     groupStatus = {};
@@ -835,17 +914,23 @@ function logoutLocal() {
     $("phoneStep").classList.remove("hidden");
     $("codeStep").classList.add("hidden");
 
-    setMessage("loginMessage", "از سایت خارج شدی.");
+    setMessage(
+        "loginMessage",
+        "از سایت خارج شدی."
+    );
 }
 
 function stopPolling() {
+
     if (pollTimer) {
         clearTimeout(pollTimer);
         pollTimer = null;
     }
+
 }
 
 function setRing(type, progress) {
+
     const safeProgress = Math.max(
         0,
         Math.min(100, Number(progress || 0))
@@ -861,22 +946,40 @@ function setRing(type, progress) {
 }
 
 function updateOperationUI(type, data) {
+
     const isGroup = type === "groups";
     const prefix = isGroup ? "group" : "channel";
 
     $(prefix + "Total").textContent = faNumber(
         isGroup
-            ? (data.total_groups ?? data.total ?? groupStatus.total_groups ?? 0)
-            : (data.total_channels ?? data.total ?? channelStatus.total_channels ?? 0)
+            ? (
+                data.total_groups ??
+                data.total ??
+                groupStatus.total_groups ??
+                0
+            )
+            : (
+                data.total_channels ??
+                data.total ??
+                channelStatus.total_channels ??
+                0
+            )
     );
 
-    $(prefix + "Current").textContent = faNumber(data.current || 0);
-    $(prefix + "Completed").textContent = faNumber(data.completed || 0);
-    $(prefix + "Failed").textContent = faNumber(data.failed || 0);
+    $(prefix + "Current").textContent =
+        faNumber(data.current || 0);
+
+    $(prefix + "Completed").textContent =
+        faNumber(data.completed || 0);
+
+    $(prefix + "Failed").textContent =
+        faNumber(data.failed || 0);
 
     setRing(prefix, data.progress || 0);
 
-    const messageId = isGroup ? "groupMessage" : "channelMessage";
+    const messageId = isGroup
+        ? "groupMessage"
+        : "channelMessage";
 
     setMessage(
         messageId,
@@ -885,14 +988,23 @@ function updateOperationUI(type, data) {
 
     const running = Boolean(data.running);
 
-    $(prefix + "StartBtn").classList.toggle("hidden", running);
-    $(prefix + "StopBtn").classList.toggle("hidden", !running);
+    $(prefix + "StartBtn").classList.toggle(
+        "hidden",
+        running
+    );
+
+    $(prefix + "StopBtn").classList.toggle(
+        "hidden",
+        !running
+    );
 }
 
 async function refreshAll() {
+
     if (!sessionToken) return;
 
     try {
+
         const [channels, groups] = await Promise.all([
             apiRequest("/api/channels/status"),
             apiRequest("/api/groups/status")
@@ -932,12 +1044,24 @@ async function refreshAll() {
         }
 
     } catch (error) {
-        setMessage("channelMessage", error.message, "error");
-        setMessage("groupMessage", error.message, "error");
+
+        setMessage(
+            "channelMessage",
+            error.message,
+            "error"
+        );
+
+        setMessage(
+            "groupMessage",
+            error.message,
+            "error"
+        );
+
     }
 }
 
 async function startOperation(type) {
+
     if (!sessionToken) {
         alert("ابتدا وارد حساب شو.");
         return;
@@ -948,7 +1072,9 @@ async function startOperation(type) {
         return;
     }
 
-    const label = type === "groups" ? "گپ‌ها" : "کانال‌ها";
+    const label = type === "groups"
+        ? "گپ‌ها"
+        : "کانال‌ها";
 
     const confirmed = confirm(
         `آیا مطمئنی می‌خواهی درخواست ترک همه ${label} شناسایی‌شده را ارسال کنی؟`
@@ -956,7 +1082,9 @@ async function startOperation(type) {
 
     if (!confirmed) return;
 
-    const prefix = type === "groups" ? "group" : "channel";
+    const prefix = type === "groups"
+        ? "group"
+        : "channel";
 
     $(prefix + "StartBtn").disabled = true;
 
@@ -966,14 +1094,19 @@ async function startOperation(type) {
     );
 
     try {
+
         const data = await apiRequest(
             type === "groups"
                 ? "/api/groups/leave/start"
                 : "/api/channels/leave/start",
-            { method: "POST" }
+            {
+                method: "POST"
+            }
         );
 
-        activeOperation = data.running ? type : null;
+        activeOperation = data.running
+            ? type
+            : null;
 
         setMessage(
             prefix + "Message",
@@ -983,21 +1116,35 @@ async function startOperation(type) {
 
         await refreshAll();
 
-        if (data.running) startPolling();
+        if (data.running) {
+            startPolling();
+        }
 
     } catch (error) {
-        setMessage(prefix + "Message", error.message, "error");
+
+        setMessage(
+            prefix + "Message",
+            error.message,
+            "error"
+        );
+
     } finally {
+
         $(prefix + "StartBtn").disabled = false;
+
     }
 }
 
 async function stopOperation(type) {
-    const prefix = type === "groups" ? "group" : "channel";
+
+    const prefix = type === "groups"
+        ? "group"
+        : "channel";
 
     $(prefix + "StopBtn").disabled = true;
 
     try {
+
         const path = type === "groups"
             ? "/api/groups/leave/stop"
             : "/api/channels/leave/stop";
@@ -1014,30 +1161,52 @@ async function stopOperation(type) {
         startPolling();
 
     } catch (error) {
-        setMessage(prefix + "Message", error.message, "error");
+
+        setMessage(
+            prefix + "Message",
+            error.message,
+            "error"
+        );
+
     } finally {
+
         $(prefix + "StopBtn").disabled = false;
+
     }
 }
 
 function startPolling() {
+
     stopPolling();
-    pollTimer = setTimeout(pollStatus, 1000);
+
+    pollTimer = setTimeout(
+        pollStatus,
+        1000
+    );
 }
 
 async function pollStatus() {
+
     if (!sessionToken || pollBusy) return;
 
     pollBusy = true;
 
     try {
+
         const [channels, groups] = await Promise.all([
             apiRequest("/api/channels/leave/status"),
             apiRequest("/api/groups/leave/status")
         ]);
 
-        updateOperationUI("channels", channels);
-        updateOperationUI("groups", groups);
+        updateOperationUI(
+            "channels",
+            channels
+        );
+
+        updateOperationUI(
+            "groups",
+            groups
+        );
 
         if (channels.running) {
             activeOperation = "channels";
@@ -1048,20 +1217,44 @@ async function pollStatus() {
         }
 
         if (activeOperation) {
-            pollTimer = setTimeout(pollStatus, 1200);
+
+            pollTimer = setTimeout(
+                pollStatus,
+                1200
+            );
+
         } else {
+
             stopPolling();
+
         }
 
     } catch (error) {
-        setMessage("channelMessage", error.message, "error");
-        setMessage("groupMessage", error.message, "error");
-        pollTimer = setTimeout(pollStatus, 3000);
+
+        setMessage(
+            "channelMessage",
+            error.message,
+            "error"
+        );
+
+        setMessage(
+            "groupMessage",
+            error.message,
+            "error"
+        );
+
+        pollTimer = setTimeout(
+            pollStatus,
+            3000
+        );
 
     } finally {
+
         pollBusy = false;
+
     }
 }
 </script>
+
 </body>
-                </html>
+        </html>
