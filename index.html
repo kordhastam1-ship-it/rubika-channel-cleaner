@@ -40,7 +40,6 @@ footer{text-align:center;color:#9aabc3;font-size:12px;padding:15px}
 </head>
 <body>
 <div class="container">
-
 <header>
 <div class="logo">🧹</div>
 <h1>روبیکا کلینر</h1>
@@ -55,15 +54,14 @@ footer{text-align:center;color:#9aabc3;font-size:12px;padding:15px}
 <h2>🔐 ورود به حساب روبیکا</h2>
 <label for="phone">شماره تلفن</label>
 <input id="phone" type="tel" inputmode="tel" placeholder="مثلاً 09123456789">
-<button id="sendBtn" onclick="sendCode()">درخواست کد ورود</button>
+<button id="sendBtn" type="button" onclick="sendCode()">درخواست کد ورود</button>
 
 <div id="codeArea" class="hidden">
 <label for="code">کد تأیید</label>
 <input id="code" type="text" inputmode="numeric" maxlength="8" placeholder="کد دریافتی">
-<button id="verifyBtn" onclick="verifyCode()">تأیید کد</button>
-<button class="secondary" onclick="resetLogin()">بازگشت</button>
+<button id="verifyBtn" type="button" onclick="verifyCode()">تأیید کد</button>
+<button class="secondary" type="button" onclick="resetLogin()">بازگشت</button>
 </div>
-
 <div id="loginMessage" class="message">شماره تلفن خودت را وارد کن.</div>
 </section>
 
@@ -71,8 +69,8 @@ footer{text-align:center;color:#9aabc3;font-size:12px;padding:15px}
 <div class="card">
 <h2>وضعیت حساب</h2>
 <div id="accountStatus" class="message">حساب متصل است.</div>
-<button class="secondary" onclick="refreshAll()">به‌روزرسانی اطلاعات</button>
-<button class="danger" onclick="logout()">خروج از حساب</button>
+<button class="secondary" type="button" onclick="refreshAll()">به‌روزرسانی اطلاعات</button>
+<button class="danger" type="button" onclick="logout()">خروج از حساب</button>
 </div>
 
 <div class="card">
@@ -90,8 +88,8 @@ footer{text-align:center;color:#9aabc3;font-size:12px;padding:15px}
 <div class="stat"><div id="channelFailed" class="value">۰</div><div class="label">خطاها</div></div>
 </div>
 <div id="channelMessage" class="message">وضعیت هنوز دریافت نشده است.</div>
-<button id="channelStart" onclick="startOperation('channels')">شروع ترک کانال‌ها</button>
-<button id="channelStop" class="danger hidden" onclick="stopOperation('channels')">توقف عملیات</button>
+<button id="channelStart" type="button" onclick="startOperation('channels')">شروع ترک کانال‌ها</button>
+<button id="channelStop" class="danger hidden" type="button" onclick="stopOperation('channels')">توقف عملیات</button>
 </div>
 
 <div class="card">
@@ -109,8 +107,8 @@ footer{text-align:center;color:#9aabc3;font-size:12px;padding:15px}
 <div class="stat"><div id="groupFailed" class="value">۰</div><div class="label">خطاها</div></div>
 </div>
 <div id="groupMessage" class="message">وضعیت هنوز دریافت نشده است.</div>
-<button id="groupStart" class="green" onclick="startOperation('groups')">شروع ترک گروه‌ها</button>
-<button id="groupStop" class="danger hidden" onclick="stopOperation('groups')">توقف عملیات</button>
+<button id="groupStart" class="green" type="button" onclick="startOperation('groups')">شروع ترک گروه‌ها</button>
+<button id="groupStop" class="danger hidden" type="button" onclick="stopOperation('groups')">توقف عملیات</button>
 </div>
 
 <div class="card">
@@ -119,15 +117,13 @@ footer{text-align:center;color:#9aabc3;font-size:12px;padding:15px}
 <a href="https://rubika.ir/ISLAMIC_Al_KORDI" target="_blank" rel="noopener noreferrer">@ISLAMIC_Al_KORDI</a>
 </div>
 </section>
-
 <footer>روبیکا کلینر | نسخه آزمایشی</footer>
 </div>
 
 <script>
 "use strict";
 
-const API="https://rubika-api-e4t-rubikacleaner.runflare.cloud";
-
+const API="https://rubika-api-10z-rubikacleaner.runflare.cloud";
 let sessionToken=null;
 let pollTimer=null;
 let activeOperation=null;
@@ -145,22 +141,40 @@ function fa(n){
 return Number(n||0).toLocaleString("fa-IR");
 }
 
+function normalizePhone(value){
+let phone=value.replace(/[\s\-()]/g,"");
+if(phone.startsWith("+98"))phone="0"+phone.slice(3);
+else if(phone.startsWith("0098"))phone="0"+phone.slice(4);
+else if(phone.startsWith("98")&&phone.length===12)phone="0"+phone.slice(2);
+return phone;
+}
+
 async function request(path,options={}){
-const headers={"Content-Type":"application/json",...(options.headers||{})};
+const headers={
+"Content-Type":"application/json",
+...(options.headers||{})
+};
 if(sessionToken)headers["X-Session-Token"]=sessionToken;
 
 let response;
 try{
-response=await fetch(API+path,{...options,headers});
+response=await fetch(API+path,{
+...options,
+headers,
+signal:AbortSignal.timeout(25000)
+});
 }catch(e){
-throw new Error("اتصال به سرور برقرار نشد. اینترنت و دامنه را بررسی کن.");
+if(e.name==="TimeoutError"||e.name==="AbortError"){
+throw new Error("زمان پاسخ سرور تمام شد. وضعیت بک‌اند را بررسی کن.");
+}
+throw new Error("اتصال برقرار نشد. آدرس بک‌اند یا تنظیمات CORS را بررسی کن.");
 }
 
 let data;
 try{
 data=await response.json();
 }catch(e){
-throw new Error("پاسخ سرور معتبر نیست.");
+throw new Error("پاسخ سرور JSON معتبر نیست. مسیر API را بررسی کن.");
 }
 
 if(!response.ok){
@@ -170,14 +184,16 @@ return data;
 }
 
 async function sendCode(){
-const phone=$("phone").value.trim();
-if(!phone){
-message("loginMessage","شماره تلفن را وارد کن.","error");
+const phone=normalizePhone($("phone").value.trim());
+
+if(!/^09\d{9}$/.test(phone)){
+message("loginMessage","شماره موبایل معتبر ایران را با ۰۹ وارد کن.","error");
 return;
 }
 
+$("phone").value=phone;
 $("sendBtn").disabled=true;
-message("loginMessage","در حال درخواست کد ورود...");
+message("loginMessage","در حال درخواست کد ورود؛ لطفاً صبر کن...");
 
 try{
 const data=await request("/api/auth/send-code",{
@@ -185,11 +201,16 @@ method:"POST",
 body:JSON.stringify({phone})
 });
 
-sessionToken=data.token||data.session_token||null;
-if(!sessionToken)throw new Error("سرور شناسه نشست برنگرداند. بک‌اند باید تکمیل شود.");
+const token=data.token||data.session_token;
+if(token)sessionToken=token;
+
+if(!sessionToken){
+throw new Error("سرور شناسه نشست برنگرداند. بک‌اند باید بررسی شود.");
+}
 
 $("codeArea").classList.remove("hidden");
-message("loginMessage",data.message||"درخواست کد ارسال شد.","success");
+message("loginMessage",data.message||"درخواست کد ثبت شد. کد را فقط در این صفحه وارد کن.","success");
+
 }catch(e){
 message("loginMessage",e.message,"error");
 }finally{
@@ -199,6 +220,7 @@ $("sendBtn").disabled=false;
 
 async function verifyCode(){
 const code=$("code").value.trim();
+
 if(!sessionToken){
 message("loginMessage","ابتدا درخواست کد بده.","error");
 return;
@@ -223,8 +245,9 @@ sessionToken=data.token||data.session_token;
 
 $("loginCard").classList.add("hidden");
 $("dashboard").classList.remove("hidden");
-message("accountStatus",data.message||"پاسخ ورود از سرور دریافت شد.");
+message("accountStatus",data.message||"ورود تأیید شد.");
 await refreshAll();
+
 }catch(e){
 message("loginMessage",e.message,"error");
 }finally{
@@ -236,7 +259,7 @@ function resetLogin(){
 sessionToken=null;
 $("code").value="";
 $("codeArea").classList.add("hidden");
-message("loginMessage","شماره تلفن را وارد کن.");
+message("loginMessage","شماره تلفن خودت را وارد کن.");
 }
 
 function setRing(prefix,progress){
@@ -248,7 +271,9 @@ $(prefix+"Percent").textContent=fa(p)+"٪";
 
 function updateUI(type,data){
 const p=type==="groups"?"group":"channel";
-const total=type==="groups"?(data.total_groups??data.total??0):(data.total_channels??data.total??0);
+const total=type==="groups"
+?(data.total_groups??data.total??0)
+:(data.total_channels??data.total??0);
 
 $(p+"Total").textContent=fa(total);
 $(p+"Current").textContent=fa(data.current);
@@ -264,16 +289,25 @@ $(p+"Stop").classList.toggle("hidden",!running);
 
 async function refreshAll(){
 if(!sessionToken)return;
+
 try{
 const results=await Promise.all([
 request("/api/channels/status"),
 request("/api/groups/status")
 ]);
+
 updateUI("channels",results[0]);
 updateUI("groups",results[1]);
-activeOperation=results[0].running?"channels":results[1].running?"groups":null;
+
+activeOperation=results[0].running
+?"channels"
+:results[1].running
+?"groups"
+:null;
+
 if(activeOperation)startPolling();
 else stopPolling();
+
 }catch(e){
 message("channelMessage",e.message,"error");
 message("groupMessage",e.message,"error");
@@ -298,11 +332,15 @@ $(p+"Start").disabled=true;
 message(p+"Message","در حال ارسال درخواست...");
 
 try{
-const path=type==="groups"?"/api/groups/leave/start":"/api/channels/leave/start";
+const path=type==="groups"
+?"/api/groups/leave/start"
+:"/api/channels/leave/start";
+
 const data=await request(path,{method:"POST"});
-message(p+"Message",data.message||"پاسخ سرور دریافت شد.");
+message(p+"Message",data.message||"درخواست دریافت شد.");
 await refreshAll();
 if(data.running)startPolling();
+
 }catch(e){
 message(p+"Message",e.message,"error");
 }finally{
@@ -313,11 +351,16 @@ $(p+"Start").disabled=false;
 async function stopOperation(type){
 const p=type==="groups"?"group":"channel";
 $(p+"Stop").disabled=true;
+
 try{
-const path=type==="groups"?"/api/groups/leave/stop":"/api/channels/leave/stop";
+const path=type==="groups"
+?"/api/groups/leave/stop"
+:"/api/channels/leave/stop";
+
 const data=await request(path,{method:"POST"});
 message(p+"Message",data.message||"درخواست توقف ارسال شد.");
 startPolling();
+
 }catch(e){
 message(p+"Message",e.message,"error");
 }finally{
@@ -338,21 +381,30 @@ pollTimer=setTimeout(pollStatus,1500);
 async function pollStatus(){
 if(!sessionToken||pollBusy)return;
 pollBusy=true;
+
 try{
 const results=await Promise.all([
 request("/api/channels/leave/status"),
 request("/api/groups/leave/status")
 ]);
+
 updateUI("channels",results[0]);
 updateUI("groups",results[1]);
 
-activeOperation=results[0].running?"channels":results[1].running?"groups":null;
+activeOperation=results[0].running
+?"channels"
+:results[1].running
+?"groups"
+:null;
+
 if(activeOperation)pollTimer=setTimeout(pollStatus,1500);
 else stopPolling();
+
 }catch(e){
 message("channelMessage",e.message,"error");
 message("groupMessage",e.message,"error");
 pollTimer=setTimeout(pollStatus,3000);
+
 }finally{
 pollBusy=false;
 }
@@ -363,6 +415,7 @@ if(activeOperation){
 alert("ابتدا عملیات در حال اجرا را متوقف کن.");
 return;
 }
+
 stopPolling();
 sessionToken=null;
 $("dashboard").classList.add("hidden");
